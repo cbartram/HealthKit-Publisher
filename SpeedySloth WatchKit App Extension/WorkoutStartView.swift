@@ -15,7 +15,6 @@ class WorkoutStartView: WKInterfaceController {
     
     override func didAppear() {
         super.didAppear()
-        
         /// Requesting authorization.
         /// - Tag: RequestAuthorization
         // The quantity type to write to the health store.
@@ -38,11 +37,9 @@ class WorkoutStartView: WKInterfaceController {
     
     override func contextForSegue(withIdentifier segueIdentifier: String) -> Any? {
         if segueIdentifier == "startWorkout" {
-            /// - Tag: WorkoutConfiguration
             let configuration = HKWorkoutConfiguration()
             configuration.activityType = .running
             configuration.locationType = .outdoor
-            
             return WorkoutSessionContext(healthStore: healthStore, configuration: configuration)
         }
         

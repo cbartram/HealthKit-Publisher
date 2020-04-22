@@ -8,6 +8,4 @@ The extension delegate of the WatchKit extension.
 import WatchKit
 import HealthKit
 
-class ExtensionDelegate: NSObject, WKExtensionDelegate {
-    
-}
+class ExtensionDelegate: NSObject, WKExtensionDelegate {}

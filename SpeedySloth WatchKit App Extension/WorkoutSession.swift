@@ -42,12 +42,9 @@ class WorkoutSession: WKInterfaceController, HKWorkoutSessionDelegate, HKLiveWor
         builder.delegate = self
         
         /// Set the workout builder's data source.
-        /// - Tag: SetDataSource
-        builder.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore,
-                                                     workoutConfiguration: configuration)
+        builder.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore, workoutConfiguration: configuration)
         
         // Start the workout session and begin data collection.
-        /// - Tag: StartSession
         session.startActivity(with: Date())
         builder.beginCollection(withStart: Date()) { (success, error) in
             self.setDurationTimerDate(.running)
@@ -72,19 +69,14 @@ class WorkoutSession: WKInterfaceController, HKWorkoutSessionDelegate, HKLiveWor
     }
     
     func setDurationTimerDate(_ sessionState: HKWorkoutSessionState) {
-        /// Obtain the elapsed time from the workout builder.
-        /// - Tag: ObtainElapsedTime
-        let timerDate = Date(timeInterval: -self.builder.elapsedTime, since: Date())
-        
         // Dispatch to main, because we are updating the interface.
         DispatchQueue.main.async {
-            self.timer.setDate(timerDate)
+            self.timer.setDate(Date(timeInterval: -self.builder.elapsedTime, since: Date()))
         }
         
         // Dispatch to main, because we are updating the interface.
         DispatchQueue.main.async {
             /// Update the timer based on the state we are in.
-            /// - Tag: UpdateTimer
             sessionState == .running ? self.timer.start() : self.timer.stop()
         }
     }
@@ -115,7 +107,6 @@ class WorkoutSession: WKInterfaceController, HKWorkoutSessionDelegate, HKLiveWor
     
     func endWorkout() {
         /// Update the timer based on the state we are in.
-        /// - Tag: SaveWorkout
         session.end()
         builder.endCollection(withEnd: Date()) { (success, error) in
             self.builder.finishWorkout { (workout, error) in
@@ -168,13 +159,7 @@ class WorkoutSession: WKInterfaceController, HKWorkoutSessionDelegate, HKLiveWor
         endWorkout()
     }
     
-    // MARK: - HKWorkoutSessionDelegate
-    func workoutSession(
-        _ workoutSession: HKWorkoutSession,
-        didChangeTo toState: HKWorkoutSessionState,
-        from fromState: HKWorkoutSessionState,
-        date: Date
-    ) {
+    func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
         // Dispatch to main, because we are updating the interface.
         DispatchQueue.main.async {
             self.setupMenuItemsForWorkoutSessionState(toState)

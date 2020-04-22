@@ -26,7 +26,7 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>WKCompanionAppBundleIdentifier</key>
-	<string>com.example.apple-samplecode.SpeedySloth-2</string>
+	<string>com.health.SpeedySloth</string>
 	<key>WKWatchKitApp</key>
 	<true/>
 </dict>
